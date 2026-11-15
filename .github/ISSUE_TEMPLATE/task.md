@@ -1,5 +1,5 @@
 ---
-name: 작업
+name: 작업 이슈
 about: 기능 또는 버그
 title: "[FEAT] "
 ---
