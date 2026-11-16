@@ -18,7 +18,7 @@ export default function LoginPage({ onLogin }) {
     try {
       const user = await login(loginId, password);
       // 로그인되면 App의 GuestOnly가 role별 홈으로 보낸다.
-      // TODO(4단계): STUDENT면 진행 중 Attempt 확인 후 wait/take로 바로 이동
+      // 학생은 항상 /exam/join (응시 중이던 시험도 코드 재입력으로 복귀)
       onLogin(user);
     } catch (err) {
       setError(err.message || "로그인에 실패했습니다.");

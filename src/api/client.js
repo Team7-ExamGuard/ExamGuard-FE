@@ -24,14 +24,15 @@ function updateServerTime(dateHeader) {
 }
 
 export async function request(method, path, body) {
+  const user = getJSON(STORAGE_KEYS.USER);
+
   if (USE_MOCK) {
-    const res = await mockRequest(method, path, body);
+    const res = await mockRequest(method, path, body, user?.accessToken);
     updateServerTime(res.headers.date);
     if (res.status >= 400) throw new ApiError(res.status, res.body?.code, res.body?.message);
     return res.body;
   }
 
-  const user = getJSON(STORAGE_KEYS.USER);
   const headers = { "Content-Type": "application/json" };
   if (user?.accessToken) headers.Authorization = `Bearer ${user.accessToken}`;
 

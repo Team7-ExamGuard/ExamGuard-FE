@@ -21,7 +21,13 @@ npm run build
 | `REACT_APP_API_BASE_URL` | 백엔드 주소 |
 | `REACT_APP_USE_MOCK` | `true`면 백엔드 없이 `src/api/mock` 응답 사용 |
 
-mock 계정: `student1 / 1234` (학생), `admin / 1234` (관리자)
+## mock 서버
+
+API 명세는 [docs/api-spec.md](docs/api-spec.md)에 있고, mock은 이를 따릅니다. 데이터는 localStorage(`mock-db`)에 저장돼 새로고침해도 유지됩니다.
+
+- 계정 (비밀번호 모두 `1234`): `student1`, `student2`, `student3`, `admin`
+- 시험 코드: `OPEN01` 진행 중, `WAIT01` 3분 뒤 시작, `DONE01` 종료
+- 초기화: 브라우저 콘솔에서 `resetMockDb()` (예시 시험 시각도 현재 기준으로 다시 만들어짐)
 
 ## 구조
 
