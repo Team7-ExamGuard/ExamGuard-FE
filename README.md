@@ -23,7 +23,7 @@ npm run build
 
 ## mock 서버
 
-API 명세는 [docs/api-spec.md](docs/api-spec.md)에 있고, mock은 이를 따릅니다. 데이터는 localStorage(`mock-db`)에 저장돼 새로고침해도 유지됩니다.
+API 명세는 백엔드 Swagger(로컬: `http://localhost:8080/swagger-ui/index.html`)에서 확인합니다. 데이터는 localStorage(`mock-db`)에 저장돼 새로고침해도 유지됩니다.
 
 - 계정 (비밀번호 모두 `1234`): `student1`, `student2`, `student3`, `admin`
 - 시험 코드: `OPEN01` 진행 중, `WAIT01` 3분 뒤 시작, `DONE01` 종료
