@@ -1,6 +1,6 @@
 import { api } from "./client";
 
-// 응답 형태와 에러 코드는 docs/api-spec.md 참고
+// 응답 형태와 에러 코드는 백엔드 Swagger(/swagger-ui/index.html) 참고
 const BASE = "/api/admin/exams";
 
 // → [{ id, title, status, code, startAt, endAt, joinedCount }]
