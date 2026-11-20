@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { login } from "../api/auth";
 
-export default function LoginPage({ onLogin }) {
+// notice: 로그인 화면 진입 사유 안내 (예: 세션 만료)
+export default function LoginPage({ onLogin, notice }) {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,6 +31,7 @@ export default function LoginPage({ onLogin }) {
     <main className="login">
       <form className="card login-card" onSubmit={handleSubmit}>
         <h1>ExamGuard</h1>
+        {notice && !error && <p className="notice" role="status">{notice}</p>}
         <label>
           아이디
           <input value={loginId} onChange={(e) => setLoginId(e.target.value)} autoComplete="username" autoFocus />

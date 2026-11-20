@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { setUnauthorizedHandler } from "./api/client";
 import { getJSON, remove, setJSON, STORAGE_KEYS } from "./utils/storage";
 
 import Header from "./components/Header";
@@ -42,21 +43,36 @@ function GuestOnly({ user }) {
 function App() {
   // user: { loginId, name, role: "STUDENT" | "ADMIN", accessToken } | null
   const [user, setUser] = useState(loadUser);
+  // 로그인 화면에 보여줄 안내 (예: 세션 만료)
+  const [notice, setNotice] = useState("");
 
   const handleLogin = (loginUser) => {
     setJSON(STORAGE_KEYS.USER, loginUser);
     setUser(loginUser);
+    setNotice("");
   };
 
-  const handleLogout = () => {
+  const handleLogout = (message = "") => {
     // 로그인 정보만 삭제 (답안 임시 저장 데이터는 지우지 않음)
     remove(STORAGE_KEYS.USER);
     setUser(null);
+    setNotice(message);
   };
+
+  // API가 401을 받으면 로그아웃 → 라우트 가드가 /login으로 보낸다
+  // (handleLogout은 렌더마다 새로 만들어지므로 effect 안에서 같은 처리를 직접 한다)
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      remove(STORAGE_KEYS.USER);
+      setUser(null);
+      setNotice("로그인이 만료되었습니다. 다시 로그인하세요.");
+    });
+    return () => setUnauthorizedHandler(null);
+  }, []);
 
   return (
     <BrowserRouter>
-      {user && <Header user={user} onLogout={handleLogout} />}
+      {user && <Header user={user} onLogout={() => handleLogout()} />}
 
       <Routes>
         {/* 루트: role별 홈 또는 로그인으로 */}
@@ -67,7 +83,7 @@ function App() {
 
         {/* 비로그인 전용 */}
         <Route element={<GuestOnly user={user} />}>
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} notice={notice} />} />
         </Route>
 
         {/* 학생 */}
